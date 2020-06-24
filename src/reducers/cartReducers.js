@@ -35,7 +35,7 @@ const cartReducers = (state={cart:[]}, action) => {
         
         // if item doesn't exist in cart we add it to the cart 
         else {
-            let newCart = [...action.payload, ...cartCopy]
+            let newCart = [action.payload, ...cartCopy]
             return {
                 ...state,
                 cart: newCart,
