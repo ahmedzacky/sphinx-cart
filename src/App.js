@@ -10,8 +10,14 @@ import products from './products'
 // creating redux store
 const store = createStore(reducers);
 
-// creating products array
-store.dispatch(addtoCart(products));
+// we add products one by one to simulate reality
+store.dispatch(addtoCart(products[0]))
+store.dispatch(addtoCart(products[1]))
+store.dispatch(addtoCart(products[2]))
+store.dispatch(addtoCart(products[2]))
+
+
+//store.dispatch(addtoCart(products));   
 
 // store as provider and rendering cart list and footer
 const App = () =>  {
