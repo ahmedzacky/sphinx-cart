@@ -1,23 +1,19 @@
 import React from 'react';
 import CartList from './components/Cart'
-import Footer from './components/Footer'
+import CartFooter from './components/Footer'
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
-import reducers from './reducers/reducers';
 import {addtoCart} from './actions/cartActions'
 import products from './products'
+import cartReducers from './reducers/cartReducers'
 
 // creating redux store
-const store = createStore(reducers);
+const store = createStore(cartReducers);
 
 // we add products one by one to simulate reality
 store.dispatch(addtoCart(products[0]))
 store.dispatch(addtoCart(products[1]))
 store.dispatch(addtoCart(products[2]))
-store.dispatch(addtoCart(products[2]))
-
-
-//store.dispatch(addtoCart(products));   
 
 // store as provider and rendering cart list and footer
 const App = () =>  {
@@ -26,7 +22,7 @@ const App = () =>  {
         <div className="container">
         <h2>Shopping Cart</h2>
         <CartList />
-        <Footer />
+        <CartFooter />
         </div>
     </Provider>
   );

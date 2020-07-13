@@ -1,23 +1,25 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import { bindActionCreators } from 'redux'
-import {deleteCartItem, updateCart} from '../actions/cartActions'
+import { deleteCartItem, updateCart } from '../actions/cartActions'
+import { useSelector, useDispatch } from 'react-redux'
 
 
 // mapping actions to onclicks increment, decrement and delete
 // for decrement we check quantity to avoid negative values
-// mapping state.cart array each to its own product section
+// mapping state.cart array each to its own product section in the cart
 
-const CartList = (props) => {
-    const onDelete = id => props.deleteCartItem(id) 
-    const onIncrement = id =>  props.updateCart(id, 1)
+const CartList = () => {
+    const state = useSelector(state => ({ cart: state.cart }))
+    const { cart } = state
+    const dispatch = useDispatch()
+    const onDelete = id => dispatch(deleteCartItem(id)) 
+    const onIncrement = id =>  dispatch(updateCart(id, 1))
     const onDecrement = (id, quantity) => {
         if (quantity > 1){
-            props.updateCart(id, -1)
+            dispatch(updateCart(id, -1))
         }
     } 
     return (
-        props.cart.map(
+        cart.map(
             function (product){
                 return (
                     <section key={product.id} className="product">
@@ -44,15 +46,4 @@ const CartList = (props) => {
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        cart: state.cart.cart
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return bindActionCreators({deleteCartItem, updateCart}, dispatch)
-    
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CartList)
+export default (CartList)

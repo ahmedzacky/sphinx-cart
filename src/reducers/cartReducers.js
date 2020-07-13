@@ -5,15 +5,12 @@ const cartReducers = (state={cart:[]}, action) => {
     const cartCopy = [...state.cart]
     console.log(cartCopy)
     // switch statment for each action type
-    // eslint-disable-next-line default-case
     switch (action.type){
-
         //add to cart reducer
         //recieves product and adds it to cart
         // when adding to cart its either existing product or not existing
         case "ADD_TO_CART":
         const indexToAdd = cartCopy.findIndex(product => product.id === action.payload.id)
-
         // if item exists in the cart we append to item quantity
         if (indexToAdd !== -1){
             const newItemToAdd = {
@@ -77,15 +74,21 @@ const cartReducers = (state={cart:[]}, action) => {
             totalAmount: totals(newCart).amount,
             totalQty: totals(newCart).qty,
         }
+
+        default:
+            return state
     }
-    return state;
+    
 }
+
 
 
 export default cartReducers;
 
 // calculating total items and price
 export const totals = payload => {
+    // we create a new array containing total values from the payload array (cart)
+    // then we use reduce to sum up item count
     const total = payload.map(item => item.price * item.quantity).reduce((a,b) => a+b, 0)
     const totalQty = payload.map(item => item.quantity).reduce((a,b) => a+b, 0)
     return {
