@@ -3,6 +3,7 @@
 const cartReducers = (state={cart:[]}, action) => {
     // create copy of current state to avoid mutation
     const cartCopy = [...state.cart]
+    let newCart = []
     // switch statment for each action type
     switch (action.type){
         //add to cart reducer
@@ -61,7 +62,7 @@ const cartReducers = (state={cart:[]}, action) => {
             ...cartCopy[indexToUpdate], 
             quantity: cartCopy[indexToUpdate].quantity + action.unit
         }
-        let newCart = [
+        newCart = [
             ...cartCopy.slice(0,indexToUpdate),            
             newItemToUpdate,
             ...cartCopy.slice(indexToUpdate + 1)
@@ -72,6 +73,26 @@ const cartReducers = (state={cart:[]}, action) => {
             totalAmount: totals(newCart).amount,
             totalQty: totals(newCart).qty,
         }
+
+        //set quantity (from input field)
+        case "SET_QUANTITY": 
+        const indexToSetVal = cartCopy.findIndex(product => product.id === action.id)
+        const newItemToSetVal = {
+            ...cartCopy[indexToSetVal], 
+            quantity: action.val
+        }
+        newCart = [
+            ...cartCopy.slice(0,indexToSetVal),            
+            newItemToSetVal,
+            ...cartCopy.slice(indexToSetVal + 1)
+        ]
+        return {
+            ...state,
+            cart: newCart ,
+            totalAmount: totals(newCart).amount,
+            totalQty: totals(newCart).qty,
+        }
+
 
         default:
             return state

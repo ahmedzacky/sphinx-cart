@@ -20,3 +20,11 @@ export const deleteCartItem = id => {
     id
     }
 }
+
+export const setQuantity = (id, val) => {
+    return {
+    type: 'SET_QUANTITY', 
+    id,
+    val
+    }
+}

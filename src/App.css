@@ -80,7 +80,10 @@ img{
 }
 
 .num-box{
-  width: 15px;
+  border: 1px solid #86939E;
+  border-radius: 5px;
+  height: 30px;
+  width: 35px;
   text-align: center;
   margin: 0.5rem;
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { deleteCartItem, updateCart } from '../actions/cartActions'
+import { deleteCartItem, updateCart, setQuantity } from '../actions/cartActions'
 import { useSelector, useDispatch } from 'react-redux'
 
 
@@ -16,8 +16,22 @@ const CartList = () => {
     const onDecrement = (id, quantity) => {
         if (quantity > 1){
             dispatch(updateCart(id, -1))
+        } else {
+            dispatch(deleteCartItem(id))
         }
     } 
+
+
+    const valueExtracter = (e) => {
+        return (e.target.value)
+    }
+
+    //handle value will only run if input is a number 
+    const handleValue = (id, value) => {
+        if (parseInt(value)){
+            dispatch(setQuantity(id, parseInt(value)))
+        }
+    }
     return (
         cart.map(
             function (product){
@@ -30,7 +44,7 @@ const CartList = () => {
                         </div>
                         <div className="prod-count">
                             <button className="plus" onClick={()=> onIncrement(product.id)}>+</button>
-                            <div className="num-box">{product.quantity}</div>
+                            <input type="text" onChange={(e)=> handleValue(product.id, valueExtracter(e))} className="num-box" placeholder={product.quantity} />
                             <button className="minus" onClick={()=> onDecrement(product.id, product.quantity)}>-</button>
                         </div>
                         <div className="prod-price">
