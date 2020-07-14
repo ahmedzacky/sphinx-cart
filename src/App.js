@@ -20,7 +20,9 @@ const App = () =>  {
   return (
     <Provider store={store}>
         <div className="container">
-        <h2>Shopping Cart</h2>
+          	<div className="title">
+            	Shopping Cart
+          	</div>
         <CartList />
         <CartFooter />
         </div>

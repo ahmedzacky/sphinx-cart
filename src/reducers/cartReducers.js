@@ -3,43 +3,41 @@
 const cartReducers = (state={cart:[]}, action) => {
     // create copy of current state to avoid mutation
     const cartCopy = [...state.cart]
-    console.log(cartCopy)
     // switch statment for each action type
     switch (action.type){
         //add to cart reducer
         //recieves product and adds it to cart
         // when adding to cart its either existing product or not existing
         case "ADD_TO_CART":
-        const indexToAdd = cartCopy.findIndex(product => product.id === action.payload.id)
-        // if item exists in the cart we append to item quantity
-        if (indexToAdd !== -1){
-            const newItemToAdd = {
-                ...cartCopy[indexToAdd], 
-                quantity: cartCopy[indexToAdd].quantity + 1
-            }
-            let newCart = [
-                ...cartCopy.slice(0,indexToAdd),            
-                newItemToAdd,
-                ...cartCopy.slice(indexToAdd + 1)
-            ]
-            return {
-                ...state,
-                cart: newCart ,
-                totalAmount: totals(newCart).amount,
-                totalQty: totals(newCart).qty,
-            }
-        }
-        
-        // if item doesn't exist in cart we add it to the cart 
-        else {
-            let newCart = [action.payload, ...cartCopy]
-            return {
-                ...state,
-                cart: newCart,
-                totalAmount: totals(newCart).amount,
-                totalQty: totals(newCart).qty
-            }
-        }
+                const indexToAdd = cartCopy.findIndex(product => product.id === action.payload.id)
+                // if item exists in the cart we append to item quantity
+                if (indexToAdd !== -1){
+                    const newItemToAdd = {
+                        ...cartCopy[indexToAdd], 
+                        quantity: cartCopy[indexToAdd].quantity + 1
+                    }
+                    let newCart = [
+                        ...cartCopy.slice(0,indexToAdd),            
+                        newItemToAdd,
+                        ...cartCopy.slice(indexToAdd + 1)
+                    ]
+                    return {
+                        ...state,
+                        cart: newCart ,
+                        totalAmount: totals(newCart).amount,
+                        totalQty: totals(newCart).qty,
+                    }
+                }
+                // if item doesn't exist in cart we add it to the cart 
+                else {
+                    let newCart = [action.payload, ...cartCopy]
+                    return {
+                        ...state,
+                        cart: newCart,
+                        totalAmount: totals(newCart).amount,
+                        totalQty: totals(newCart).qty
+                    }
+                }
         
 
         //delete cart reducer

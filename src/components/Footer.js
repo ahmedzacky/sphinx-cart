@@ -16,7 +16,7 @@ const CartFooter = () => {
     return (
         <footer>
             <div className="continue"> Continue Shopping &gt;&gt;&gt;</div>
-            <div className="subtotal">Subtotal: <span className="sub-price">$ {amount}</span></div>
+            {quantity > 0 && <div className="subtotal">Subtotal: <span className="sub-price">${amount}</span></div>}
             {quantity === 0 && <img onClick={() => resetCart()} src={reset} className="reset" alt=""/>}
 		</footer>
     )
