@@ -23,13 +23,13 @@ const CartList = () => {
 
 
     const valueExtracter = (e) => {
-        return (e.target.value)
+        return parseInt(e.target.value)
     }
 
     //handle value will only run if input is a number 
     const handleValue = (id, value) => {
-        if (parseInt(value)){
-            dispatch(setQuantity(id, parseInt(value)))
+        if (!isNaN(value) && value > 0){
+            dispatch(setQuantity(id, value))
         }
     }
     return (
