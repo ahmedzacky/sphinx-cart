@@ -62,6 +62,25 @@ const cartReducers = (state={cart:[]}, action) => {
         //works as delete reducer but returns new quantity instead of deleting object 
         case "UPDATE_CART": 
         const indexToUpdate = cartCopy.findIndex(product => product.id === action.id)
+        // if condition checks for when the item is set to '' to reset its value to 1
+        if (cartCopy[indexToUpdate].quantity === ''){
+            let itemReadded = {
+                ...cartCopy[indexToUpdate],
+                quantity: 1
+            }
+            newCart = [
+                ...cartCopy.slice(0,indexToUpdate),
+                itemReadded,
+                ...cartCopy.slice(indexToUpdate + 1)
+            ]
+            return {
+                ...state,
+                cart: newCart ,
+                totalAmount: totals(newCart).amount,
+                totalQty: totals(newCart).qty,
+            }
+
+        }
         const newItemToUpdate = {
             ...cartCopy[indexToUpdate], 
             quantity: cartCopy[indexToUpdate].quantity + action.unit
