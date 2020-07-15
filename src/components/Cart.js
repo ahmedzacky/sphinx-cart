@@ -11,16 +11,19 @@ const CartList = () => {
     const state = useSelector(state => ({ cart: state.cart }))
     const { cart } = state
     const dispatch = useDispatch()
-    const onDelete = id => dispatch(deleteCartItem(id)) 
-    const onIncrement = id =>  dispatch(updateCart(id, 1))
+    const onDelete = id => dispatch(deleteCartItem(id))
+     
+    const onIncrement = (id) => {
+        dispatch(updateCart(id, 1))
+    }
+
     const onDecrement = (id, quantity) => {
         if (quantity > 1){
             dispatch(updateCart(id, -1))
         } else {
             dispatch(deleteCartItem(id))
         }
-    } 
-
+    }
 
     const valueExtracter = (e) => {
         return parseInt(e.target.value)
@@ -28,10 +31,11 @@ const CartList = () => {
 
     //handle value will only run if input is a number 
     const handleValue = (id, value) => {
-        if (!isNaN(value) && value > 0){
+        if (!isNaN(value)){
             dispatch(setQuantity(id, value))
         }
     }
+
     return (
         cart.map(
             function (product){
@@ -43,9 +47,9 @@ const CartList = () => {
                             <div className="prod-id">{product.id}</div>
                         </div>
                         <div className="prod-count">
-                            <button className="plus" onClick={()=> onIncrement(product.id)}>+</button>
-                            <input type="text" onChange={(e)=> handleValue(product.id, valueExtracter(e))} className="num-box" placeholder={product.quantity} />
                             <button className="minus" onClick={()=> onDecrement(product.id, product.quantity)}>-</button>
+                            <input type="text" onChange={(e)=> handleValue(product.id, valueExtracter(e))} className="num-box" value={product.quantity}/>
+                            <button className="plus" onClick={()=> onIncrement(product.id)}>+</button>
                         </div>
                         <div className="prod-price">
                             $ {(product.quantity*product.price).toLocaleString('en-US', {maximumFractionDigits: 2})}
