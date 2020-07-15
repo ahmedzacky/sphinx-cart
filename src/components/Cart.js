@@ -26,12 +26,14 @@ const CartList = () => {
     }
 
     const valueExtracter = (e) => {
-        return parseInt(e.target.value)
+        let value = parseInt(e.target.value)
+        if (isNaN(value)) return ''
+        else return value
     }
 
     //handle value will only run if input is a number 
     const handleValue = (id, value) => {
-        if (!isNaN(value)){
+        if (value === '' || value > 0){
             dispatch(setQuantity(id, value))
         }
     }
@@ -39,6 +41,7 @@ const CartList = () => {
     return (
         cart.map(
             function (product){
+                let itemPrice = product.quantity * product.price
                 return (
                     <section key={product.id} className="product">
                         <img src={product.image} alt="" />
@@ -52,7 +55,7 @@ const CartList = () => {
                             <button className="plus" onClick={()=> onIncrement(product.id)}>+</button>
                         </div>
                         <div className="prod-price">
-                            $ {(product.quantity*product.price).toLocaleString('en-US', {maximumFractionDigits: 2})}
+                           {itemPrice >= product.price ? `$ ${itemPrice.toLocaleString('en-US', {maximumFractionDigits: 2})}` : <span className="disabled-price">$ {product.price}</span>}
                         </div>
                         <button onClick={()=> onDelete(product.id)} className="prod-delete">
                             X 

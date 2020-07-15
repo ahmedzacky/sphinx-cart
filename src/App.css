@@ -93,6 +93,11 @@ img{
   width: 75px;
 }
 
+.disabled-price{
+  font-weight: 300;
+  color: red;
+}
+
 footer{
   padding: 20px;
   display: flex;
