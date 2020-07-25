@@ -17,7 +17,7 @@ const cartReducers = (state={cart:[]}, action) => {
                         ...cartCopy[indexToAdd], 
                         quantity: cartCopy[indexToAdd].quantity + 1
                     }
-                    let newCart = [
+                    newCart = [
                         ...cartCopy.slice(0,indexToAdd),            
                         newItemToAdd,
                         ...cartCopy.slice(indexToAdd + 1)
@@ -26,7 +26,7 @@ const cartReducers = (state={cart:[]}, action) => {
                         ...state,
                         cart: newCart ,
                         totalAmount: totals(newCart).amount,
-                        totalQty: totals(newCart).qty,
+                        toalQty: totals(newCart).qty,
                     }
                 }
                 // if item doesn't exist in cart we add it to the cart and set its quantity to 1
@@ -35,7 +35,7 @@ const cartReducers = (state={cart:[]}, action) => {
                         ...action.payload,
                         quantity: 1
                     }
-                    let newCart = [newCartItem, ...cartCopy]
+                    newCart = [newCartItem, ...cartCopy]
                     return {
                         ...state,
                         cart: newCart,
@@ -46,31 +46,29 @@ const cartReducers = (state={cart:[]}, action) => {
         
 
         //delete cart reducer
-        //splits cart array into before and after object to be deleted
-        //returns cart array without the deleted object
+        //deletes cart item from cart array
         case "DELETE_CART_ITEM":
-        const indexToDelete = cartCopy.findIndex(product => product.id === action.id)
-        cartCopy.splice(indexToDelete,1)
-        return {
-            ...state,
-            cart: cartCopy,
-            totalAmount: totals(cartCopy).amount,
-            totalQty: totals(cartCopy).qty
-        }
+            const indexToDelete = cartCopy.findIndex(product => product.id === action.id)
+            cartCopy.splice(indexToDelete,1)
+            return {
+                ...state,
+                cart: cartCopy,
+                totalAmount: totals(cartCopy).amount,
+                totalQty: totals(cartCopy).qty
+            }
 
         //update cart reducer
-        //works as delete reducer but returns new quantity instead of deleting object 
+        //splits cart array into before and after object to be updated
+        //returns new edited quantity cart item
         case "UPDATE_CART": 
-        const indexToUpdate = cartCopy.findIndex(product => product.id === action.id)
-        // if condition checks for when the item is set to '' to reset its value to 1
-        if (cartCopy[indexToUpdate].quantity === ''){
-            let itemReadded = {
-                ...cartCopy[indexToUpdate],
-                quantity: 1
+            const indexToUpdate = cartCopy.findIndex(product => product.id === action.id)
+            const newItemToUpdate = {
+                ...cartCopy[indexToUpdate], 
+                quantity: cartCopy[indexToUpdate].quantity + action.unit
             }
             newCart = [
-                ...cartCopy.slice(0,indexToUpdate),
-                itemReadded,
+                ...cartCopy.slice(0,indexToUpdate),            
+                newItemToUpdate,
                 ...cartCopy.slice(indexToUpdate + 1)
             ]
             return {
@@ -80,42 +78,24 @@ const cartReducers = (state={cart:[]}, action) => {
                 totalQty: totals(newCart).qty,
             }
 
-        }
-        const newItemToUpdate = {
-            ...cartCopy[indexToUpdate], 
-            quantity: cartCopy[indexToUpdate].quantity + action.unit
-        }
-        newCart = [
-            ...cartCopy.slice(0,indexToUpdate),            
-            newItemToUpdate,
-            ...cartCopy.slice(indexToUpdate + 1)
-        ]
-        return {
-            ...state,
-            cart: newCart ,
-            totalAmount: totals(newCart).amount,
-            totalQty: totals(newCart).qty,
-        }
-
         //set quantity (from input field)
         case "SET_QUANTITY": 
-        const indexToSetVal = cartCopy.findIndex(product => product.id === action.id)
-        const newItemToSetVal = {
-            ...cartCopy[indexToSetVal], 
-            quantity: action.val
-        }
-        newCart = [
-            ...cartCopy.slice(0,indexToSetVal),            
-            newItemToSetVal,
-            ...cartCopy.slice(indexToSetVal + 1)
-        ]
-        return {
-            ...state,
-            cart: newCart ,
-            totalAmount: totals(newCart).amount,
-            totalQty: totals(newCart).qty,
-        }
-
+            const indexToSetVal = cartCopy.findIndex(product => product.id === action.id)
+            const newItemToSetVal = {
+                ...cartCopy[indexToSetVal], 
+                quantity: action.val
+            }
+            newCart = [
+                ...cartCopy.slice(0,indexToSetVal),            
+                newItemToSetVal,
+                ...cartCopy.slice(indexToSetVal + 1)
+            ]
+            return {
+                ...state,
+                cart: newCart ,
+                totalAmount: totals(newCart).amount,
+                totalQty: totals(newCart).qty,
+            }
 
         default:
             return state
